@@ -1,0 +1,25 @@
+{
+  "name": "sillynet/adretto",
+  "description": "Write modern PHP (Action-Domain-Responder) in Wordpress themes.",
+  "type":"library",
+  "version": "1.0.0",
+  "require": {
+    "php": ">=7.4",
+    "php-di/php-di": "^6.3",
+    "gebruederheitz/simple-singleton": "^1.0",
+    "symfony/yaml": "^5.4"
+  },
+  "license": "GPL-3.0-only",
+  "authors": [
+    {
+      "name": "andi",
+      "email": "andi@asillywalk.de"
+    }
+  ],
+  "minimum-stability": "stable",
+  "autoload": {
+    "psr-4": {
+      "Sillynet\\Adretto\\": "src"
+    }
+  }
+}
