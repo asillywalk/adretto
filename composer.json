@@ -20,5 +20,18 @@
     "psr-4": {
       "Sillynet\\Adretto\\": "src"
     }
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^1.8",
+    "szepeviktor/phpstan-wordpress": "^1.1",
+    "squizlabs/php_codesniffer": "^3.7"
+  },
+  "scripts": {
+    "lint": [
+      "@phpstan",
+      "@phpcs"
+    ],
+    "phpstan": "phpstan analyse -c .phpstan.neon",
+    "phpcs": "phpcs"
   }
 }

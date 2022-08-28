@@ -23,6 +23,9 @@ abstract class WordpressHookAction implements Action
         return static::PRIORITY;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getData(): array
     {
         return [];

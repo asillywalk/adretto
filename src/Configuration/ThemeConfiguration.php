@@ -16,10 +16,14 @@ class ThemeConfiguration
         $this->configFilePath = $configFilePath;
     }
 
+    /**
+     * @return mixed|array<mixed>
+     */
     public function get(string $key = null)
     {
         if (!isset($this->config)) {
-            $this->config = Yaml::parseFile($this->configFilePath);
+            $config = Yaml::parseFile($this->configFilePath);
+            $this->config = is_array($config) ? $config : [];
         }
 
         if ($key !== null) {

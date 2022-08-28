@@ -4,5 +4,4 @@ namespace Sillynet\Adretto\Extension;
 
 interface WptfExtension
 {
-
 }
