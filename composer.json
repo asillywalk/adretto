@@ -2,7 +2,6 @@
   "name": "sillynet/adretto",
   "description": "Write modern PHP (Action-Domain-Responder) in Wordpress themes.",
   "type":"library",
-  "version": "1.0.0",
   "require": {
     "php": ">=7.4",
     "php-di/php-di": "^6.3",
