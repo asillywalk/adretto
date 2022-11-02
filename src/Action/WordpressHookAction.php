@@ -4,14 +4,14 @@ namespace Sillynet\Adretto\Action;
 
 abstract class WordpressHookAction implements Action
 {
-    public const WP_HOOK = 'some-wordpress-hook';
     public const ARGUMENT_COUNT = 1;
     public const PRIORITY = 10;
 
-    public static function getWpHookName(): string
-    {
-        return static::WP_HOOK;
-    }
+    /**
+     * Specify the Wordpress (or custom) hook that you want to attach this
+     * action to.
+     */
+    abstract public static function getWpHookName(): string;
 
     public static function getArgumentCount(): int
     {
@@ -21,13 +21,5 @@ abstract class WordpressHookAction implements Action
     public static function getPriority(): int
     {
         return static::PRIORITY;
-    }
-
-    /**
-     * @return array<mixed>
-     */
-    public function getData(): array
-    {
-        return [];
     }
 }
