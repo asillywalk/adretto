@@ -93,6 +93,7 @@ class Theme extends Singleton implements Application
         if (getenv('WORDPRESS_ENV') === 'production') {
             /*
              * @TODO: post-install task to clear /var directory after deployments
+             *  also the directories should really be configurable
              */
             $containerBuilder->enableCompilation(
                 get_template_directory() . '/var/container/',
@@ -178,7 +179,7 @@ class Theme extends Singleton implements Application
                 $this->initCustomAction($action);
             } else {
                 throw new InvalidUsageException(
-                    'Do not implement ActionHandler directly: Use one of ActionHookActionHandler or FilterHookActionHandler.',
+                    'Do not implement Action or HookAction directly: Use one of ActionHookAction, FilterHookAction or CustomAction.',
                 );
             }
         }
