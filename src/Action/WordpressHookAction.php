@@ -2,7 +2,7 @@
 
 namespace Sillynet\Adretto\Action;
 
-abstract class WordpressHookAction implements Action
+abstract class WordpressHookAction implements HookAction
 {
     public const ARGUMENT_COUNT = 1;
     public const PRIORITY = 10;
@@ -12,6 +12,8 @@ abstract class WordpressHookAction implements Action
      * action to.
      */
     abstract public static function getWpHookName(): string;
+
+    abstract public function getHandler(): callable;
 
     public static function getArgumentCount(): int
     {
