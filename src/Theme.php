@@ -16,6 +16,7 @@ use Sillynet\Adretto\Action\CustomAction;
 use Sillynet\Adretto\Action\FilterHookAction;
 use Sillynet\Adretto\Action\HookAction;
 use Sillynet\Adretto\Configuration\ThemeConfiguration;
+use Sillynet\Adretto\Contracts\AdrettoExtension;
 use Sillynet\Adretto\Exception\InvalidUsageException;
 use Throwable;
 
@@ -88,6 +89,10 @@ class Theme extends Singleton implements Application
         $this->config = new ThemeConfiguration($this->configFilePath);
         $containerBuilder = new ContainerBuilder(Container::class);
         $definitions = $this->parseServiceDefinitions();
+        $definitions = array_merge(
+            $this->parseServiceDefinitions(),
+            $this->loadExtensions(),
+        );
         $containerBuilder->addDefinitions($definitions);
 
         if (getenv('WORDPRESS_ENV') === 'production') {
@@ -218,6 +223,45 @@ class Theme extends Singleton implements Application
     {
         $action = $this->invoker->call([$actionClassName, '__construct']);
         $this->container->set($actionClassName, $action);
+    }
+
+    /**
+     * @return array<string, array<string, string>>
+     */
+    protected function loadExtensions(): array
+    {
+        $extensionNames = $this->config->get('extensions');
+        if (!$extensionNames || !is_array($extensionNames)) {
+            return [];
+        }
+
+        /** @var array<string, array<string, string>> $services */
+        $services = [];
+
+        foreach ($extensionNames as $extensionName) {
+            $interfaces = class_implements($extensionName);
+            if (
+                !is_array($interfaces) ||
+                !in_array(AdrettoExtension::class, $interfaces)
+            ) {
+                error_log(
+                    sprintf(
+                        'Adretto extensions must implement %s',
+                        AdrettoExtension::class,
+                    ),
+                );
+                continue;
+            }
+
+            /** @var AdrettoExtension $extension */
+            $extension = new $extensionName();
+            $actions = $extension->getActions();
+            $this->actions = array_merge($this->actions, $actions);
+
+            $services = array_merge($services, $extension->getServices());
+        }
+
+        return $services;
     }
 
     /**
