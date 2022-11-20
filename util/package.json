@@ -1,6 +1,6 @@
 {
   "name": "@sillynet/adretto-util",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Utilities for the sillynet/adretto PHP composer package",
   "main": "",
   "engines": {
