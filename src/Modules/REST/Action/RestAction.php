@@ -5,6 +5,7 @@ namespace Sillynet\Adretto\Modules\REST\Action;
 use Sillynet\Adretto\Action\ActionHookAction;
 use Sillynet\Adretto\Action\InvokerWordpressHookAction;
 use Sillynet\Adretto\Modules\REST\RestRoute;
+use WP_REST_Request;
 
 abstract class RestAction extends InvokerWordpressHookAction implements
     ActionHookAction
@@ -26,7 +27,7 @@ abstract class RestAction extends InvokerWordpressHookAction implements
      *
      * @return mixed
      */
-    abstract protected function handle();
+    abstract protected function handle(WP_REST_Request $request);
 
     public function __invoke(...$args): void
     {
