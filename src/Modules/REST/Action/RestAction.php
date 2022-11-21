@@ -27,7 +27,7 @@ abstract class RestAction extends InvokerWordpressHookAction implements
      *
      * @return mixed
      */
-    abstract protected function handle(WP_REST_Request $request);
+    abstract public function handle(WP_REST_Request $request);
 
     public function __invoke(...$args): void
     {
