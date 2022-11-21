@@ -88,11 +88,8 @@ class Theme extends Singleton implements Application
     {
         $this->config = new ThemeConfiguration($this->configFilePath);
         $containerBuilder = new ContainerBuilder(Container::class);
-        $definitions = $this->parseServiceDefinitions();
-        $definitions = array_merge(
-            $this->parseServiceDefinitions(),
-            $this->loadExtensions(),
-        );
+        $extensionDefinitions = $this->loadExtensions();
+        $definitions = $this->parseServiceDefinitions($extensionDefinitions);
         $containerBuilder->addDefinitions($definitions);
 
         if (getenv('WORDPRESS_ENV') === 'production') {
@@ -265,13 +262,19 @@ class Theme extends Singleton implements Application
     }
 
     /**
+     * @param array<string, array<string, string>> $extensionDefinitions
      * @return array<string|class-string, string|class-string|FactoryDefinitionHelper|CreateDefinitionHelper>
      */
-    protected function parseServiceDefinitions(): array
-    {
+    protected function parseServiceDefinitions(
+        array $extensionDefinitions
+    ): array {
         // parse yaml for services into appropriate array
-        /** @var array<string, array<string, string>> $rawDefinitions */
-        $rawDefinitions = $this->config->get('services');
+        /** @var array<string, array<string, string>> $rawUserDefinitions */
+        $rawUserDefinitions = $this->config->get('services');
+        $rawDefinitions = array_merge(
+            $rawUserDefinitions,
+            $extensionDefinitions,
+        );
         $definitions = [];
 
         foreach ($rawDefinitions as $name => $definition) {
