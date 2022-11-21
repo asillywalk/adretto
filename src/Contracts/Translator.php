@@ -11,6 +11,11 @@ interface Translator
      */
     public function getAllLanguages(): array;
 
+    public function getPostIdForLanguage(
+        int $postId,
+        string $languageSlug
+    ): ?int;
+
     public function getCurrentLanguage(): string;
 
     public function renderLanguageSwitcher(?int $postId): void;
